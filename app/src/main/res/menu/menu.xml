@@ -1,0 +1,44 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/menu_group1"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/item_notes"
+            android:icon="@drawable/home"
+            android:title="@string/notes" />
+
+    </group>
+
+    <group
+        android:id="@+id/menu_group2"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/item_label"
+            android:icon="@drawable/label"
+            android:title="@string/labels" />
+
+    </group>
+
+    <group android:id="@+id/menu_group3">
+
+        <item
+            android:id="@+id/item_deleted"
+            android:icon="@drawable/delete"
+            android:title="@string/deleted" />
+
+        <item
+            android:id="@+id/item_archived"
+            android:icon="@drawable/archive"
+            android:title="@string/archived" />
+
+    </group>
+
+    <item
+        android:id="@+id/item_setting"
+        android:icon="@drawable/settings"
+        android:title="@string/settings" />
+
+</menu>
