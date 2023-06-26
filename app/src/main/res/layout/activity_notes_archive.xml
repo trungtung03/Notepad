@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.TakeNoteActivity">
+    tools:context=".activity.NotesArchiveActivity">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/Cardview_2"
+        android:id="@+id/Cardview_5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="3dp">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/ToolbarTakeNotes"
+            android:id="@+id/ToolbarArchiveNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -22,14 +22,14 @@
                 android:layout_height="wrap_content">
 
                 <ImageButton
-                    android:id="@+id/ButtonBack"
+                    android:id="@+id/ButtonBackArchiveNotes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:src="@drawable/arrow_back" />
 
                 <ImageButton
-                    android:id="@+id/ButtonShare"
+                    android:id="@+id/ButtonShareArchiveNotes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -38,11 +38,11 @@
                     android:src="@drawable/share" />
 
 <!--                <ImageButton-->
-<!--                    android:id="@+id/ButtonPin"-->
+<!--                    android:id="@+id/ButtonPinArchiveNotes"-->
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
 <!--                    android:layout_marginEnd="30dp"-->
-<!--                    android:layout_toStartOf="@id/ButtonShare"-->
+<!--                    android:layout_toStartOf="@id/ButtonShareArchiveNotes"-->
 <!--                    android:background="@android:color/transparent"-->
 <!--                    android:src="@drawable/pin" />-->
 
@@ -53,22 +53,22 @@
     </androidx.cardview.widget.CardView>
 
     <ImageView
-        android:id="@+id/ImageTakeNotes"
+        android:id="@+id/ImageArchiveNotes"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_below="@id/Cardview_2"
+        android:layout_below="@id/Cardview_5"
         android:scaleType="centerCrop"
         android:visibility="gone" />
 
     <RelativeLayout
-        android:id="@+id/layout_3"
+        android:id="@+id/layout_5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ImageTakeNotes"
+        android:layout_below="@id/ImageArchiveNotes"
         android:layout_marginTop="5dp">
 
         <EditText
-            android:id="@+id/EditTextTitle"
+            android:id="@+id/TextTitleArchiveNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -81,10 +81,10 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/TextViewDateTime"
+            android:id="@+id/TextViewDateTimeArchiveNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/EditTextTitle"
+            android:layout_below="@id/TextTitleArchiveNotes"
             android:layout_marginTop="5dp"
             android:padding="5dp"
             android:paddingStart="20dp"
@@ -94,16 +94,16 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_below="@id/TextViewDateTime"
+            android:layout_below="@id/TextViewDateTimeArchiveNotes"
             android:background="@color/Grey" />
 
     </RelativeLayout>
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/EditTextTakeNotes"
+    <EditText
+        android:id="@+id/TextArchiveNotes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/layout_3"
+        android:layout_below="@id/layout_5"
         android:background="@android:color/transparent"
         android:gravity="start|top"
         android:hint="@string/notes"

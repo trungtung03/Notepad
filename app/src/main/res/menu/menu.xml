@@ -11,34 +11,22 @@
 
     </group>
 
-    <group
-        android:id="@+id/menu_group2"
-        android:checkableBehavior="single">
-
-        <item
-            android:id="@+id/item_label"
-            android:icon="@drawable/label"
-            android:title="@string/labels" />
-
-    </group>
-
-    <group android:id="@+id/menu_group3">
+    <group android:id="@+id/menu_group2">
 
         <item
             android:id="@+id/item_deleted"
             android:icon="@drawable/delete"
             android:title="@string/deleted" />
 
+    </group>
+
+    <group android:id="@+id/menu_group3">
+
         <item
             android:id="@+id/item_archived"
-            android:icon="@drawable/archive"
+            android:icon="@drawable/archive_menu"
             android:title="@string/archived" />
 
     </group>
-
-    <item
-        android:id="@+id/item_setting"
-        android:icon="@drawable/settings"
-        android:title="@string/settings" />
 
 </menu>

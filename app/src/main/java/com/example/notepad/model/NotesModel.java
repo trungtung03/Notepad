@@ -1,11 +1,20 @@
-package com.example.notepad.Model;
+package com.example.notepad.model;
 
-public class TakeNoteModel {
+public class NotesModel {
 
+    private int takeNoteID;
     private String title;
     private String image;
     private String timeNote;
     private String notes;
+
+    public int getTakeNoteID() {
+        return takeNoteID;
+    }
+
+    public void setTakeNoteID(int takeNoteID) {
+        this.takeNoteID = takeNoteID;
+    }
 
     public String getTitle() {
         return title;
@@ -39,13 +48,14 @@ public class TakeNoteModel {
         this.notes = notes;
     }
 
-    public TakeNoteModel(String title, String image, String timeNote, String notes) {
+    public NotesModel(int takeNoteID, String title, String image, String timeNote, String notes) {
+        this.takeNoteID = takeNoteID;
         this.title = title;
         this.image = image;
         this.timeNote = timeNote;
         this.notes = notes;
     }
 
-    public TakeNoteModel() {
+    public NotesModel() {
     }
 }

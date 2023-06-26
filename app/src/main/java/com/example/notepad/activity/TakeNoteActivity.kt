@@ -1,23 +1,25 @@
-package com.example.notepad
+package com.example.notepad.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.notepad.Model.TakeNoteModel
+import com.bumptech.glide.Glide
+import com.example.notepad.model.NotesModel
+import com.example.notepad.NotesDatabaseHelper
+import com.example.notepad.R
 import com.example.notepad.base.BaseActivity
 import com.example.notepad.databinding.ActivityTakeNoteBinding
 import java.text.SimpleDateFormat
-import java.util.Calendar
+import java.util.*
 
 @Suppress("DEPRECATION")
 class TakeNoteActivity : BaseActivity() {
@@ -33,22 +35,33 @@ class TakeNoteActivity : BaseActivity() {
     private val mActivityResultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+        if (result.resultCode == RESULT_OK) {
             val intent = result.data
             if (intent == null) {
                 return@registerForActivityResult
             } else {
                 mUri = intent.data
-                val bitmap = MediaStore.Images.Media.getBitmap(
-                    contentResolver,
-                    mUri
-                )
-                mBinding.ImageTakeNotes.setImageBitmap(
-                    bitmap
-                )
+                Glide.with(this).load(getPath(uri = mUri)).into(mBinding.ImageTakeNotes)
                 mBinding.ImageTakeNotes.visibility = View.VISIBLE
             }
         }
+    }
+
+    @SuppressLint("Range")
+    fun getPath(uri: Uri?): String? {
+        var cursor: Cursor? = contentResolver.query(uri!!, null, null, null, null)
+        cursor?.moveToFirst()
+        var document_id: String? = cursor?.getString(0)
+        document_id = document_id?.substring(document_id.lastIndexOf(":").plus(1))
+        cursor?.close()
+        cursor = contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            null, MediaStore.Images.Media._ID + " = ? ", arrayOf(document_id), null
+        )
+        cursor?.moveToFirst()
+        val path: String? = cursor?.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
+        cursor?.close()
+        return path
     }
 
     override fun setLayout(): View = mBinding.root
@@ -61,15 +74,7 @@ class TakeNoteActivity : BaseActivity() {
         mDatabaseHelper = NotesDatabaseHelper(this@TakeNoteActivity)
 
         mBinding.ButtonBack.setOnClickListener {
-            setDataToBundle()
-        }
-        mBinding.ButtonPin.setOnClickListener {
-            isCheck++
-            if (isCheck > 1) {
-                mBinding.ButtonPin.setImageResource(R.drawable.pin)
-            } else {
-                mBinding.ButtonPin.setImageResource(R.drawable.unpin)
-            }
+            setDataToBundle("note")
         }
 
         mBinding.TextViewDateTime.text =
@@ -81,33 +86,32 @@ class TakeNoteActivity : BaseActivity() {
         return true
     }
 
-    private fun setDataToBundle() {
-        val takeNoteModel = TakeNoteModel()
+    private fun setDataToBundle(table: String) {
+        val notesModel = NotesModel()
         if (mBinding.EditTextTakeNotes.text!!.trim()
                 .isNotEmpty() && mBinding.EditTextTitle.text.trim().isNotEmpty()
         ) {
-            takeNoteModel.title = mBinding.EditTextTitle.text.toString().trim()
-            takeNoteModel.notes = mBinding.EditTextTakeNotes.text.toString().trim()
+            notesModel.title = mBinding.EditTextTitle.text.toString().trim()
+            notesModel.notes = mBinding.EditTextTakeNotes.text.toString().trim()
         } else if (mBinding.EditTextTakeNotes.text!!.trim()
                 .isEmpty() && mBinding.EditTextTitle.text.trim().isEmpty()
         ) {
-            takeNoteModel.title = "Nội dung ghi chú trống"
-            takeNoteModel.notes = ""
+            notesModel.title = getString(R.string.empty_note_content)
+            notesModel.notes = ""
         } else if (mBinding.EditTextTakeNotes.text!!.isNotEmpty() && mBinding.EditTextTitle.text!!.isEmpty()) {
-            takeNoteModel.title = ""
-            takeNoteModel.notes = mBinding.EditTextTakeNotes.text.toString().trim()
+            notesModel.title = ""
+            notesModel.notes = mBinding.EditTextTakeNotes.text.toString().trim()
         } else if (mBinding.EditTextTitle.text!!.isNotEmpty() && mBinding.EditTextTakeNotes.text!!.isEmpty()) {
-            takeNoteModel.notes = ""
-            takeNoteModel.title = mBinding.EditTextTitle.text.toString().trim()
+            notesModel.notes = ""
+            notesModel.title = mBinding.EditTextTitle.text.toString().trim()
         }
-        takeNoteModel.timeNote = mBinding.TextViewDateTime.text.toString().trim()
-        if(mUri != null) {
-            takeNoteModel.image = mUri.toString().trim()
-            Log.d("vxc", mUri.toString().trim() + " |")
-        }else {
-            takeNoteModel.image = ""
+        notesModel.timeNote = mBinding.TextViewDateTime.text.toString().trim()
+        if (mUri != null) {
+            notesModel.image = getPath(mUri)
+        } else {
+            notesModel.image = ""
         }
-        mDatabaseHelper?.insertProduct(takeNoteModel)
+        mDatabaseHelper?.insertNote(notesModel, table)
 
         openActivity(
             MainActivity::
@@ -118,9 +122,6 @@ class TakeNoteActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.take_note_labels -> {
-
-            }
             R.id.take_note_add_image -> {
                 if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     openGallery()
@@ -148,7 +149,7 @@ class TakeNoteActivity : BaseActivity() {
     )
     override fun onBackPressed() {
         super.onBackPressed()
-        setDataToBundle()
+        setDataToBundle("note")
     }
 
     @Deprecated("Deprecated in Java")

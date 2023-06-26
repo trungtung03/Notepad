@@ -20,14 +20,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun initView()
 
-    open fun replaceFragment(id: Int, fragment: Fragment, backstack: String? = null) {
+    open fun addFragment(id: Int, fragment: Fragment, tag: String, backstack: String? = null) {
         supportFragmentManager.beginTransaction()
-            .setCustomAnimations(
-                R.anim.slide_in,
-                R.anim.fade_out,
-                R.anim.fade_in,
-                R.anim.slide_out
-            ).add(id, fragment)
+            .add(id, fragment, tag)
             .addToBackStack(backstack)
             .commit()
     }
@@ -48,5 +43,17 @@ abstract class BaseActivity : AppCompatActivity() {
             view = mBinding.root
             show()
         }
+    }
+
+    open fun replaceFragment(id: Int, fragment: Fragment, tag: String, backstack: String? = null) {
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out
+            ).replace(id, fragment, tag)
+            .addToBackStack(backstack)
+            .commit()
     }
 }

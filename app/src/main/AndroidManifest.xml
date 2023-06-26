@@ -3,7 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission
+        android:name="android.permission.MANAGE_DOCUMENTS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:allowBackup="true"
@@ -15,13 +20,19 @@
         android:theme="@style/Theme.Notepad"
         tools:targetApi="31">
         <activity
-            android:name=".DetailedNotes"
+            android:name=".activity.NotesArchiveActivity"
             android:exported="false" />
         <activity
-            android:name=".TakeNoteActivity"
+            android:name=".activity.NotesRecycleActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.DetailedNotesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.TakeNoteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

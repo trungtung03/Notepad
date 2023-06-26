@@ -21,5 +21,6 @@
     <string name="archived">Lưu trữ</string>
     <string name="settings">Cài đặt</string>
     <string name="title">Tựa đề</string>
+    <string name="empty_note_content">Nội dung ghi chú trống</string>
 
 </resources>
